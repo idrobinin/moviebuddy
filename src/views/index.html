@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Cpmpatible" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Video Player</title>
+  </head>
+  <body>
+    <div id="app">
+      <video src="" controls autoplay></video>
+      {{message}}
+    </div>
+  </body>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+  <script>
+    const { createApp, ref } = Vue;
+
+    createApp({
+      setup() {
+        const message = ref("Hello vue!");
+        return {
+          message,
+        };
+      },
+    }).mount("#app");
+  </script>
+</html>

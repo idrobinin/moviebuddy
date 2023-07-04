@@ -3,12 +3,15 @@
     "src/**/*.ts"
   ],
   "compilerOptions": {
-    "module": "CommonJS",
+    "module": "commonJS",
     "target": "ES2020",
     "outDir": "./dist",
     "sourceMap": true,
     "baseUrl": ".",
     "esModuleInterop": true,
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "typeRoots": [
+      "node_modules/@types"
+    ]
   }
 }
