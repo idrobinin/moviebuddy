@@ -2,27 +2,54 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Cpmpatible" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <title>Video Player</title>
   </head>
   <body>
     <div id="app">
       <video src="" controls autoplay></video>
-      {{message}}
+      <ul>
+        <li v-for="file in files" :key="file.magnet">
+          {{file.fileName}}
+          <button @click="play(file)">Play</button>
+        </li>
+      </ul>
     </div>
   </body>
-  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-
   <script>
-    const { createApp, ref } = Vue;
+    const { createApp, ref, reactive, computed } = Vue;
 
     createApp({
       setup() {
         const message = ref("Hello vue!");
+        let activeVideo = reactive({});
+        const files = ref([
+          {
+            magnet: "d50ba99f0c3cb2f3ae4483262a3ef5ab9e722eba",
+            fileName: "The.Fearway.2023.720p.BluRay.DD.5.1.x264-MegaPeer.mkv",
+          },
+          {
+            magnet: "b69e67697f8c1a60d39b5f20a2e0027276f20984",
+            fileName: "D:Mixed Baggage (2022).by.Alexandr.avi",
+          },
+        ]);
+
+        const videoUrl = computed(() => {
+          return activeVideo.fileName
+            ? `/stream/${activeVideo.magnet}/${activeVideo.fileName}`
+            : "";
+        });
+        async function play(file) {
+          const response = await axios.get(`/stream/add/${file.magnet}`);
+          activeVideo = file;
+        }
         return {
+          play,
           message,
+          files,
+          activeVideo,
         };
       },
     }).mount("#app");
