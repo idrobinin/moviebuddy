@@ -9,7 +9,8 @@
   </head>
   <body>
     <div id="app">
-      <video src="" controls autoplay></video>
+      <video :src="videoUrl" controls autoplay></video>
+
       <ul>
         <li v-for="file in files" :key="file.magnet">
           {{file.fileName}}
@@ -19,33 +20,41 @@
     </div>
   </body>
   <script>
-    const { createApp, ref, reactive, computed } = Vue;
+    const { createApp, ref, reactive, computed, onMounted } = Vue;
 
     createApp({
       setup() {
         const message = ref("Hello vue!");
         let activeVideo = reactive({});
+        const videoUrl = ref("");
         const files = ref([
           {
             magnet: "d50ba99f0c3cb2f3ae4483262a3ef5ab9e722eba",
             fileName: "The.Fearway.2023.720p.BluRay.DD.5.1.x264-MegaPeer.mkv",
           },
           {
-            magnet: "b69e67697f8c1a60d39b5f20a2e0027276f20984",
-            fileName: "D:Mixed Baggage (2022).by.Alexandr.avi",
+            magnet: "d1ffb01598567d205b5c150b8b9c46eeb87d1b55",
+            fileName:
+              "Убийство Салазара.2016.BDRemux.1080p.R.G. Goldenshara.mkv",
           },
         ]);
 
-        const videoUrl = computed(() => {
-          return activeVideo.fileName
-            ? `/stream/${activeVideo.magnet}/${activeVideo.fileName}`
-            : "";
-        });
+        // загруза и воспроизведение файла
         async function play(file) {
           const response = await axios.get(`/stream/add/${file.magnet}`);
           activeVideo = file;
+          activeVideo.fileName
+            ? (videoUrl.value = `/stream/${activeVideo.magnet}/${activeVideo.fileName}`)
+            : "";
+          console.log(response.data);
         }
+
+        onMounted(() => {
+          console.log(activeVideo.value);
+        });
+
         return {
+          videoUrl,
           play,
           message,
           files,
