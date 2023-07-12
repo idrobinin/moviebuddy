@@ -11,6 +11,7 @@
     <div id="app">
       <video :src="videoUrl" controls autoplay></video>
       <hr />
+      {{videoUrl}}
       <input v-model="searchTerm" placeholder="поиск" type="search" />
       <button @click="findMovie">Найти</button>
       <ul>
@@ -22,7 +23,7 @@
     </div>
   </body>
   <script>
-    const { createApp, ref, reactive } = Vue;
+    const { createApp, ref } = Vue;
 
     createApp({
       setup() {
@@ -34,14 +35,19 @@
 
         // загруза и воспроизведение файла
         async function play(file) {
-          const { data } = await axios.get(`/stream/add/${file.magnet}`);
+          const response = await axios.get(`/stream/add/${file.magnet}`);
+          const data = await response.data;
+
           activeVideo.value = {
             magnet: file.magnet,
             fileName: data[0].data,
           };
-          activeVideo.fileName
-            ? (videoUrl.value = `/stream/${activeVideo.magnet}/${activeVideo.fileName}`)
+
+          activeVideo.value.fileName
+            ? (videoUrl.value = `/stream/${activeVideo.value.magnet}/${activeVideo.value.fileName}`)
             : "";
+
+          console.log(videoUrl.value);
         }
 
         const findMovie = async () => {
