@@ -1,0 +1,10 @@
+version: '3.6'
+
+services:
+  mongodb:
+    image: mongo
+    ports:
+      - '27017:27017'
+    command: mongod
+    volumes:
+      - './_databases:/data/db'
