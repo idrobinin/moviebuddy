@@ -2,6 +2,8 @@ import axios from "axios";
 import * as cheerio from "cheerio";
 import { BASE_SEARCH_URL, RUTOR_URL } from "./movies.const";
 import { extractMagnetFromQuery } from "./movies.util";
+import MovieEntity from "./movies.model";
+import { Movie } from "./movies.interfaces";
 
 export const movieSearch = async (searchTerm: string) => {
   const searchResult = await axios.get(`${BASE_SEARCH_URL}${searchTerm}`);
@@ -27,4 +29,23 @@ export const movieSearch = async (searchTerm: string) => {
       };
     })
     .filter((el) => el.title);
+};
+
+// CRUD service
+export const create = async (input: Movie) => {
+  const item = new MovieEntity(input);
+  await item.save();
+  return item;
+};
+export const update = async (input: Partial<Movie>, id: string) => {
+  return MovieEntity.findByIdAndUpdate(id, input, { new: true });
+};
+export const findOne = async (id: string) => {
+  return MovieEntity.findById(id);
+};
+export const findAll = async () => {
+  return MovieEntity.find();
+};
+export const deleteItem = async (id: string) => {
+  return MovieEntity.findByIdAndRemove(id);
 };
