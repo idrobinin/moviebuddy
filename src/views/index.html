@@ -23,7 +23,7 @@
     </div>
   </body>
   <script>
-    const { createApp, ref } = Vue;
+    const { createApp, ref, onMounted } = Vue;
 
     createApp({
       setup() {
@@ -56,6 +56,16 @@
           );
           files.value = response.data;
         };
+
+        // получаем списов добавленных фильмов из БД для отрисовки
+        const getMyMovies = async () => {
+          const response = await axios.get(`/movies`);
+          files.value = response.data;
+        };
+
+        onMounted(() => {
+          getMyMovies();
+        });
 
         return {
           findMovie,

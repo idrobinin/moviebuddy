@@ -3,6 +3,18 @@ import { Movie } from "./movies.interfaces";
 // схема и создание модели для сущности "фильм" в базе данных
 
 const entity = new Schema<Movie>({
+  magnet: {
+    type: String,
+    default: "",
+  },
+  fileName: {
+    type: String,
+    default: "",
+  },
+  sourceUrl: {
+    type: String,
+    default: "",
+  },
   title: {
     type: String,
     default: "",
@@ -11,6 +23,7 @@ const entity = new Schema<Movie>({
     type: String,
     default: "",
   },
+
   year: {
     type: String,
     default: "",

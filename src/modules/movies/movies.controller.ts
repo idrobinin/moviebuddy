@@ -1,6 +1,6 @@
 import { Router, Response } from "express";
-import { SearchRequest } from "./movies.interfaces";
-import { movieSearch } from "./movies.service";
+import { CreateMovieRequest, SearchRequest } from "./movies.interfaces";
+import * as MovieService from "./movies.service";
 
 const router = Router();
 
@@ -9,12 +9,32 @@ router.get(
   "/search",
   async ({ query: { searchTerm } }: SearchRequest, resp: Response) => {
     try {
-      const result = await movieSearch(searchTerm);
+      const result = await MovieService.movieSearch(searchTerm);
       resp.status(200).send(result);
     } catch (err) {
       resp.status(400).send(err);
     }
   }
 );
+
+// создать фильм в БД
+router.post("/", async ({ body }: CreateMovieRequest, resp: Response) => {
+  try {
+    const result = await MovieService.create(body);
+    resp.status(200).send(result);
+  } catch (err) {
+    resp.status(400).send(err);
+  }
+});
+
+// показать все фильмы
+router.get("/", async (_, resp: Response) => {
+  try {
+    const result = await MovieService.findAll();
+    resp.status(200).send(result);
+  } catch (err) {
+    resp.status(400).send(err);
+  }
+});
 
 export default router;

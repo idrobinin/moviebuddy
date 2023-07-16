@@ -7,6 +7,9 @@ export interface SearchRequest extends Request {
 }
 
 export interface Movie {
+  magnet: string;
+  fileName: string;
+  sourceUrl: string;
   title: string;
   plot: string;
   year: string;
@@ -23,4 +26,24 @@ export interface Movie {
   imdbId: string;
   rated: string;
   genres: string[];
+}
+
+export interface CreateMovieRequest extends Request {
+  body: Movie;
+}
+export interface UpdateMovieRequest extends Request {
+  body: Partial<Movie>;
+  params: {
+    id: string;
+  };
+}
+export interface DeleteMovieRequest extends Request {
+  params: {
+    id: string;
+  };
+}
+export interface getMovieRequest extends Request {
+  params: {
+    id: string;
+  };
 }
