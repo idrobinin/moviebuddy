@@ -17,6 +17,19 @@ router.get(
   }
 );
 
+// поиск данных в IMDB
+router.get(
+  "/imdb-search",
+  async ({ query: { searchTerm } }: SearchRequest, resp: Response) => {
+    try {
+      const result = await MovieService.searchInImdb(searchTerm);
+      resp.status(200).send(result);
+    } catch (err) {
+      resp.status(400).send(err);
+    }
+  }
+);
+
 // создать фильм в БД
 router.post("/", async ({ body }: CreateMovieRequest, resp: Response) => {
   try {
