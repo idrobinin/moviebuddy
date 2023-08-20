@@ -1,6 +1,5 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
-import { stringify } from "qs";
 import { BASE_SEARCH_URL, RUTOR_URL, IMDB_SEARCH_URL } from "./movies.const";
 import { extractMagnetFromQuery } from "./movies.util";
 import MovieEntity from "./movies.model";
@@ -30,18 +29,6 @@ export const movieSearch = async (searchTerm: string) => {
       };
     })
     .filter((el) => el.title);
-};
-
-export const searchInImdb = async (query) => {
-  const queryParams = stringify({
-    api_key: "8e2575aa062360b8822f494fc76391c8",
-    query,
-  });
-  const {
-    data: { results },
-  } = await axios.get(`${IMDB_SEARCH_URL}/movie?${queryParams}`);
-  const [movie] = results;
-  return movie;
 };
 
 // CRUD service
