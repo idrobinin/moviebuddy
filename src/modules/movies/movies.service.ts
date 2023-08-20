@@ -6,13 +6,13 @@ import { extractMagnetFromQuery } from "./movies.util";
 import MovieEntity from "./movies.model";
 import { Movie } from "./movies.interfaces";
 
+// пишем скраппер для парсинга данных по кино контенту на руторе
 export const movieSearch = async (searchTerm: string) => {
   const searchResult = await axios.get(`${BASE_SEARCH_URL}${searchTerm}`);
   const $ = cheerio.load(searchResult.data);
 
   // вытаскиваем нужные нам tr из дива с данными и кладем в массив
   const data = $("#index tr").toArray();
-
   // вытаскиваем нужные нам данные(магнет ссылки) из массива с данными
   return data
     .map((el) => {
@@ -37,11 +37,11 @@ export const searchInImdb = async (query) => {
     api_key: "8e2575aa062360b8822f494fc76391c8",
     query,
   });
-  const searchResult = await axios.get(
-    `${IMDB_SEARCH_URL}/movie?${queryParams}`
-  );
-
-  return searchResult.data;
+  const {
+    data: { results },
+  } = await axios.get(`${IMDB_SEARCH_URL}/movie?${queryParams}`);
+  const [movie] = results;
+  return movie;
 };
 
 // CRUD service

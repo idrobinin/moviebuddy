@@ -4,7 +4,6 @@ import * as MovieService from "./movies.service";
 
 const router = Router();
 
-// пишем скраппер для парсинга данных по кино контенту на руторе
 router.get(
   "/search",
   async ({ query: { searchTerm } }: SearchRequest, resp: Response) => {
