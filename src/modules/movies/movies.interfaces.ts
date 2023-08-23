@@ -5,6 +5,11 @@ export interface SearchRequest extends Request {
     searchTerm: string;
   };
 }
+export interface IMDBSearchRequest extends Request {
+  query: {
+    query: string;
+  };
+}
 export interface GetMovieFromIMDBRequest extends Request {
   params: {
     imdbId: string;
@@ -51,4 +56,21 @@ export interface getMovieRequest extends Request {
   params: {
     id: string;
   };
+}
+
+export interface IMDBMovie {
+  adult: boolean;
+  backdrop_path: string;
+  genre_ids: number[];
+  id: number;
+  original_language: string;
+  original_title: string;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  release_date: string;
+  title: string;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
 }

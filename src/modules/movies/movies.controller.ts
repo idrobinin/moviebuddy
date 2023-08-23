@@ -3,6 +3,7 @@ import {
   CreateMovieRequest,
   GetMovieFromIMDBRequest,
   SearchRequest,
+  IMDBSearchRequest,
 } from "./movies.interfaces";
 import * as MovieService from "./movies.service";
 import * as IMDBService from "./imdb.service";
@@ -24,11 +25,13 @@ router.get(
 // поиск данных в IMDB
 router.get(
   "/imdb-search",
-  async ({ query: { searchTerm } }: SearchRequest, resp: Response) => {
+  async ({ query: { query } }: IMDBSearchRequest, resp: Response) => {
     try {
-      const result = await IMDBService.searchInImdb(searchTerm);
+      console.log(query);
+      const result = await IMDBService.searchInImdb(query);
       resp.status(200).send(result);
     } catch (err) {
+      console.log(err.message);
       resp.status(400).send(err);
     }
   }
