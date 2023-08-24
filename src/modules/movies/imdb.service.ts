@@ -13,6 +13,9 @@ export const searchInImdb = async (
 };
 
 export const getMovieFromImdb = async (imdbId: string): Promise<IMDBMovie> => {
-  const { data } = await getMovie(imdbId);
-  return data;
+  const {
+    data: { result },
+  } = await getMovie(imdbId);
+
+  return result;
 };
