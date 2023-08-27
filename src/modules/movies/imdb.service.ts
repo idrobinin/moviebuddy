@@ -1,5 +1,5 @@
-import { IMDBMovie } from "./movies.interfaces";
-import { IMDBRequests } from "./helpers/imdb.helper";
+import { IMDBMovie, Movie } from "./movies.interfaces";
+import { convertMovie, IMDBRequests } from "./helpers/imdb.helper";
 
 const { getMovie, searchMovie } = IMDBRequests();
 
@@ -12,10 +12,12 @@ export const searchInImdb = async (
   return result;
 };
 
-export const getMovieFromImdb = async (imdbId: string): Promise<IMDBMovie> => {
+export const getMovieFromImdb = async (
+  imdbId: string
+): Promise<Partial<Movie>> => {
   const {
     data: { result },
   } = await getMovie(imdbId);
 
-  return result;
+  return convertMovie(result);
 };

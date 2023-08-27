@@ -52,6 +52,7 @@ type result = {
   Response: "True";
 };
 
+// полученные данные IMDB конвертируем в наш интерфейс Movie
 export const convertMovie = async ({
   Title,
   Director,
